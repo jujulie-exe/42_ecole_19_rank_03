@@ -53,13 +53,13 @@ typedef struct s_data {
 //time.c    ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 time_t	get_time_stmp(const time_t time_start);
 int	random_muber(t_philo *philo);
-void	thinking(t_philo *philo);
-void	eating(t_philo *philo);
-void	sleeping(t_philo *philo);
-void	take_a_fork(t_philo *philo);
+void	thinking(t_philo *philo, time_t time);
+void	eating(t_philo *philo, time_t time);
+void	sleeping(t_philo *philo, time_t time);
+void	take_a_fork(t_philo *philo, time_t time);
 //routine.c  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 void	pose_fork(t_philo *philo);
-int	take_fork(t_philo *philo);
+int	take_fork(t_philo *philo, time_t time);
 void	*philo_routine(void *arg);
 //init.c   ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 void	init_arg(char **argv, t_data *data);
