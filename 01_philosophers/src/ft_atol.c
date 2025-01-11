@@ -6,11 +6,11 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:28:09 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/10 17:57:12 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/10 20:15:15 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "philo.h"
 
 size_t	skip_whitespace(const char *str)
 {
