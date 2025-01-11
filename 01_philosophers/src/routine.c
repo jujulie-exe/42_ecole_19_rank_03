@@ -6,25 +6,17 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:09:42 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/10 18:45:14 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/11 19:20:59 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/
 
 #include "philo.h"
 
-void	philo_routine(t_data *data)
+void pose_fork(t_philo *philo)
 {
-	while (i < data->number_of_philoshoper)
-	{
-		usleep(45); //pensa
-		if (take_fork(data->philo[i]))
-		{
-			usleep(data->time_to_eat);
-			pose_fork();
-		{
-		usleep(data->time_to_sleep);
-	}
+	pthread_mutex_unlock(philo->first_fork);
+	pthread_mutex_unlock(philo->second_fork);
 }
 
 int	take_fork(t_philo *philo)
@@ -34,25 +26,44 @@ int	take_fork(t_philo *philo)
 	short	tentativo;
 
 	tentativo = 0;
-	while (tentativi <= 2)
+	while (tentativo <= 2)
 	{
-		err = pthread_mutex_lock(philo->first_fork)
-		err2 = pthread_mutex_lock(philo->second_fork)
-		if (tentativo >= 2 && err < 0 || err2 < 0)
+		err = pthread_mutex_lock(philo->first_fork);
+		err2 = pthread_mutex_lock(philo->second_fork);
+		if (err == 0 || err2 == 0)
+			take_a_fork(philo);
+		if (tentativo >= 2 && (err < 0 || err2 < 0))
 		{
 			if(err < 0)
-				pthread_mutex_unlock(philo->first_fork)
+				pthread_mutex_unlock(philo->first_fork);
 			else
-				pthread_mutex_unlock(philo->second_fork)
+				pthread_mutex_unlock(philo->second_fork);
 		}
 		if (err == 0 && err2 == 0)
 			return (1);
-		uslpeep(1000);
-		tentativi++;
+		usleep(45);
+		tentativo++;
 	}
 	return (0);
 }
 
-int	pose_fork(t_data *data)
+void	*philo_routine(void *arg)
 {
+	int	i;
+	t_philo *philo = (t_philo *) arg;
+
+	i = 0;
+	while (1)
+	{
+		thinking(philo);
+		if (take_fork(philo))
+		{
+			eating(philo);
+			i++;
+		}
+		sleeping(philo);
+	}
 }
+
+
+/*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/
