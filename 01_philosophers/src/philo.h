@@ -6,12 +6,19 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:58:08 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/10 17:56:56 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/10 20:17:48 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+
+
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <limits.h>
+# include <pthread.h>
 
 typedef struct s_philo	{
 	int		id;
@@ -33,9 +40,6 @@ typedef struct s_data {
 	t_philo	*philosophers;
 } t_data;
 
-# include <stdlib>
-# include <unistd>
-# include <stdio.h>
 
 //time.c    ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 void	get_time_stmp(t_data *data);

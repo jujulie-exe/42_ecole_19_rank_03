@@ -6,7 +6,7 @@
 #    By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/10 17:55:26 by jfranco           #+#    #+#              #
-#    Updated: 2025/01/10 18:50:54 by jfranco          ###   ########.fr        #
+#    Updated: 2025/01/10 20:07:57 by jfranco          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC = cc
 CFLAGS = -g3 -Wall -Wextra -Werror -I
 
 # Source files and objects
-SRCS = &(wildcard src/ *.c)
+SRCS = $(wildcard src/*.c)
 OBJ_DIR = obj
 OBJ = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 
