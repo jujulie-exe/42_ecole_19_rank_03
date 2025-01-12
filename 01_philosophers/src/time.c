@@ -35,7 +35,7 @@ int	random_muber(t_philo *philo)
 	long long	random_index;
 
 	size = sizeof(array) / sizeof(array[0]);
-	random_index = get_time_stmp(philo->data->time_start) % size;
+	random_index = get_time_stmp(philo->time) % size;
 	if (random_index < 0 || random_index >= size)
 		random_index = 0;	
 
@@ -44,28 +44,28 @@ int	random_muber(t_philo *philo)
 
 void	thinking(t_philo *philo, time_t time)
 {
-	//int	thinking;
-//	int	mod;
+	int	thinking;
+	int	mod;
 
-	//thinking = philo->data->time_to_thinking;
-//	mod = random_muber(philo);
-//	if (mod <= 0)
-//		mod = 1;
-	usleep(250);	
+	thinking = philo->time_thinking;
+	mod = random_muber(philo);
+	if (mod <= 0)
+		mod = 1;
+	usleep(thinking % mod);	
 	stamp_time("thinking", philo, time);
 }
 
 void	eating(t_philo *philo, time_t time)
 {
 	stamp_time("eating", philo, time);
-	usleep(philo->data->time_to_eat);
+	usleep(philo->time_eat);
 	pose_fork(philo);
 }
 
 void	sleeping(t_philo *philo, time_t time)
 {
 	stamp_time("sleeping", philo, time);
-	usleep(philo->data->time_to_sleep);
+	usleep(philo->time_sleep);
 }
 
 void	take_a_fork(t_philo *philo, time_t time)

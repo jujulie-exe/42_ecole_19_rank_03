@@ -17,15 +17,17 @@ void pose_fork(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->first_fork);
 	pthread_mutex_unlock(philo->second_fork);
+	printf("pose fork %d \n", philo->id);
 }
 
 int	take_fork(t_philo *philo, time_t time)
 {
-	short	err;
-	short	err2;
-	short	tentativo;
+	int	err;
+	int	err2;
+	size_t	tentativo;
 
 	tentativo = 0;
+	printf("qui4\n");
 	while (tentativo <= 2)
 	{
 		err = pthread_mutex_lock(philo->first_fork);
@@ -41,7 +43,7 @@ int	take_fork(t_philo *philo, time_t time)
 		}
 		if (err == 0 && err2 == 0)
 			return (1);
-		usleep(45);
+		usleep(random_muber(philo));
 		tentativo++;
 	}
 	return (0);
@@ -49,22 +51,18 @@ int	take_fork(t_philo *philo, time_t time)
 
 void	*philo_routine(void *arg)
 {
-	int	i;
-	t_philo *philo = (t_philo *) arg;
 	time_t	time;
+	t_philo *philo = (t_philo *) arg;
+	time = philo->time;
+	
 
-	time = philo->data->time_start;
-
-	i = 0;
 	while (1)
 	{
 		thinking(philo,time);
-		if (take_fork(philo, time))
-		{
-			eating(philo, time);
-			i++;
-		}
-		sleeping(philo, time);
+		printf("qui3\n");
+		if (take_fork(philo, philo->time))
+			eating(philo, philo->time);
+		sleeping(philo, philo->time);
 	}
 }
 

@@ -29,6 +29,11 @@ typedef struct s_philo	{
 	int		id;
 	int		number_of_time_to_eat;
 	long	last_meal_time;
+	time_t	time;
+	int	time_die;
+	int	time_sleep;
+	int	time_eat;
+	int	time_thinking;
 	struct s_data	*data;
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;

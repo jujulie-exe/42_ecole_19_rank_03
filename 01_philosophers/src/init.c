@@ -27,6 +27,18 @@ void	init_arg(char **argv, t_data *data)
 //		data->number_of_times = ft_atol(argv[5]);
 }
 
+void	init_struct_philo(t_data *data, t_philo *philo)
+{
+	philo->data = data;
+	philo->time = data->time_start;
+	philo->time_sleep = data->time_to_sleep;
+	philo->time_eat = data->time_to_eat;
+	philo->time_die = data->time_to_die;
+	philo->time_eat = data->time_to_eat;
+	philo->time_thinking = data->time_to_thinking;
+}
+	
+
 void	init_philo(t_data *data)
 {
 	int	i;
@@ -41,7 +53,7 @@ void	init_philo(t_data *data)
 	while (i < data->number_of_philosophe)
 	{
 		data->philo[i].id = i + 1;
-		data->philo[i].data = data;
+		init_struct_philo(data, &data->philo[i]);
 		if(i == data->number_of_philosophe - 1)
 		{
 			data->philo[i].first_fork = &data->forks[0];
