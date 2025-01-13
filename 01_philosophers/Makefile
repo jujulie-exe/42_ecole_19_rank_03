@@ -14,7 +14,7 @@ NAME = philo
 
 # Compiler and flags
 CC = cc
-CFLAGS = -g3 -Wall -Wextra -Werror -fsanitize=thread 
+CFLAGS = -g3 -Wall -Wextra -Werror -fsanitize=thread
 
 # Source files and objects
 SRCS = $(wildcard src/*.c)

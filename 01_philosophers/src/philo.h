@@ -48,8 +48,9 @@ typedef struct s_data {
 	int	time_to_thinking;
 	time_t	time_start;
 	bool	argv5;
+	pthread_mutex_t	print;
+	pthread_mutex_t	lock;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	print_mutex;
 	pthread_t	*threads;
 	t_philo	*philo;
 } t_data;
@@ -57,21 +58,25 @@ typedef struct s_data {
 
 //time.c    ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 time_t	get_time_stmp(const time_t time_start);
-int	random_muber(t_philo *philo);
+void	stamp_time(char *str, t_philo *philo, time_t time);
+//int	random_muber(t_philo *philo);
 void	thinking(t_philo *philo, time_t time);
 void	eating(t_philo *philo, time_t time);
 void	sleeping(t_philo *philo, time_t time);
 void	take_a_fork(t_philo *philo, time_t time);
 //routine.c  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
+int	take_a_fork_and_eat(t_philo *philo, time_t time);
 void	pose_fork(t_philo *philo);
 int	take_fork(t_philo *philo, time_t time);
 void	*philo_routine(void *arg);
 //init.c   ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
+int	init_philo(t_data *data);
+int	init_mutex(t_data *data);
 void	init_arg(char **argv, t_data *data);
-void	init_philo(t_data *data);
-void	init_fork(t_data *data);
 //main.c   ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
-//ft_atol ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
+//ft_atol.c ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 long long	ft_atol(const char *str);
-
+//threads.c  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
+int	init_all(t_data *data, char **argv);
+int	lanch_tread(t_data *data);
 #endif

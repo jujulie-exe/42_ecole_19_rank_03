@@ -25,7 +25,9 @@ void	stamp_time(char *str, t_philo *philo, time_t time)
 {
 	time_t	stmp;
 	stmp = get_time_stmp(time);
-	printf("%ld %s %d\n", stmp, str,philo->id);
+	printf("%ld ", stmp);
+	printf("%d ", philo->id);
+	printf("%s\n", str);
 }
 
 int	random_muber(t_philo *philo)
@@ -45,32 +47,29 @@ int	random_muber(t_philo *philo)
 void	thinking(t_philo *philo, time_t time)
 {
 	int	thinking;
-	int	mod;
 
 	thinking = philo->time_thinking;
-	mod = random_muber(philo);
-	if (mod <= 0)
-		mod = 1;
-	usleep(thinking % mod);	
-	stamp_time("thinking", philo, time);
+	usleep(thinking);	
+	stamp_time("is thinking", philo, time);
 }
 
 void	eating(t_philo *philo, time_t time)
 {
-	stamp_time("eating", philo, time);
+
+	stamp_time("is eating", philo, time);
 	usleep(philo->time_eat);
 	pose_fork(philo);
 }
 
 void	sleeping(t_philo *philo, time_t time)
 {
-	stamp_time("sleeping", philo, time);
+	stamp_time("is sleeping", philo, time);
 	usleep(philo->time_sleep);
 }
 
 void	take_a_fork(t_philo *philo, time_t time)
 {
-	stamp_time("take a fork", philo, time);
+	stamp_time("has taken a fork", philo, time);
 }
 
 /*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/

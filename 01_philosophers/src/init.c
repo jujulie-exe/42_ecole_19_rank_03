@@ -9,6 +9,7 @@
 /*   Updated: 2025/01/11 19:24:30 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+/*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/
 
 #include "philo.h"
 
@@ -18,9 +19,11 @@ void	init_arg(char **argv, t_data *data)
 
 	gettimeofday(&start, NULL);
 	data->number_of_philosophe = ft_atol(argv[1]);
+	printf("Number of philosophers: %d\n", data->number_of_philosophe);
 	data->time_to_die = ft_atol(argv[2]);
 	data->time_to_sleep = ft_atol(argv[4]);
 	data->time_to_eat = ft_atol(argv[3]);
+	usleep(15);
 	data->time_to_thinking = (data->time_to_die - (data->time_to_sleep + data->time_to_eat));
 	data->time_start = start.tv_sec * 1000 + start.tv_usec / 1000;
 //	if (data->argv5 == true)
@@ -34,53 +37,67 @@ void	init_struct_philo(t_data *data, t_philo *philo)
 	philo->time_sleep = data->time_to_sleep;
 	philo->time_eat = data->time_to_eat;
 	philo->time_die = data->time_to_die;
-	philo->time_eat = data->time_to_eat;
 	philo->time_thinking = data->time_to_thinking;
 }
-	
 
-void	init_philo(t_data *data)
+int	init_alloc(t_data *data)
+{
+	data->threads = (pthread_t *)malloc(data->number_of_philosophe  * sizeof(pthread_t));
+		if (data->threads == NULL)
+			return (1);
+	data->philo =((t_philo *)malloc(data->number_of_philosophe * sizeof(t_philo)));
+		if(data->philo == NULL)
+			return (1);
+	return (0);
+
+}
+static void forkettine(t_philo *philo, pthread_mutex_t *forks, int nb_philos)
+{
+    if (philo->id % 2 == 0)
+    {
+        philo->first_fork = &forks[philo->id - 1];                  // Fork destro
+        philo->second_fork = &forks[philo->id % nb_philos];        // Fork sinistro
+    }
+    else
+    {
+        philo->first_fork = &forks[philo->id % nb_philos];         // Fork sinistro
+        philo->second_fork = &forks[philo->id - 1];               // Fork destro
+    }
+}
+
+
+int	init_philo(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	data->threads = (pthread_t *)malloc(data->number_of_philosophe * sizeof(pthread_t));
-		if (data->threads == NULL)
-    			exit(0);
-	data->philo =((t_philo *)malloc(data->number_of_philosophe * sizeof(t_philo)));
-		if(data->philo == NULL)
-			exit(0);
+	if (init_alloc(data) == 1)
+		return (1);
 	while (i < data->number_of_philosophe)
 	{
 		data->philo[i].id = i + 1;
 		init_struct_philo(data, &data->philo[i]);
-		if(i == data->number_of_philosophe - 1)
-		{
-			data->philo[i].first_fork = &data->forks[0];
-			data->philo[i].second_fork = &data->forks[i];
-		}
-		else
-		{
-			data->philo[i].first_fork = &data->forks[i];
-			data->philo[i].second_fork = &data->forks[i + 1];
-		}
-		pthread_create(&data->threads[i], NULL, philo_routine, &data->philo[i]);
+		forkettine(&data->philo[i], data->forks, data->number_of_philosophe);
 		i++;
 	}
-	//pthread_create(&monitor_thread, NULL, monitor_routine,);
+	return (0);
 }
-
-void init_fork(t_data *data)
+/*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/
+int init_mutex(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	data->forks = (pthread_mutex_t *) malloc (data->number_of_philosophe *sizeof(pthread_mutex_t));
+	data->forks = (pthread_mutex_t *) malloc (data->number_of_philosophe * sizeof(pthread_mutex_t));
 		if (data->forks == NULL)
-			exit (0);
+			return (1);
 	while (i < data->number_of_philosophe)
 	{
 	 	pthread_mutex_init(&data->forks[i], NULL);
 		i++;
 	}
+	pthread_mutex_init(&data->lock, NULL);
+	pthread_mutex_init(&data->print, NULL);
+	return (0);
 }
+/*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/

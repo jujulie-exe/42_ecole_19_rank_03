@@ -17,35 +17,21 @@ void pose_fork(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->first_fork);
 	pthread_mutex_unlock(philo->second_fork);
-	printf("pose fork %d \n", philo->id);
 }
 
-int	take_fork(t_philo *philo, time_t time)
+int	take_a_fork_and_eat(t_philo *philo, time_t time)
 {
-	int	err;
-	int	err2;
-	size_t	tentativo;
-
-	tentativo = 0;
-	printf("qui4\n");
-	while (tentativo <= 2)
-	{
-		err = pthread_mutex_lock(philo->first_fork);
-		err2 = pthread_mutex_lock(philo->second_fork);
-		if (err == 0 || err2 == 0)
-			take_a_fork(philo, time);
-		if (tentativo >= 2 && (err < 0 || err2 < 0))
-		{
-			if(err < 0)
-				pthread_mutex_unlock(philo->first_fork);
-			else
-				pthread_mutex_unlock(philo->second_fork);
-		}
-		if (err == 0 && err2 == 0)
-			return (1);
-		usleep(random_muber(philo));
-		tentativo++;
-	}
+	
+	pthread_mutex_lock(&philo->data->lock);
+	pthread_mutex_lock(philo->first_fork);
+	take_a_fork(philo, time);
+	pthread_mutex_lock(philo->second_fork);
+	take_a_fork(philo, time);
+	pthread_mutex_unlock(&philo->data->lock);
+	stamp_time("is eating", philo, time);
+	usleep(philo->time_eat);
+	pthread_mutex_unlock(philo->second_fork);
+	pthread_mutex_unlock(philo->first_fork);
 	return (0);
 }
 
@@ -54,15 +40,17 @@ void	*philo_routine(void *arg)
 	time_t	time;
 	t_philo *philo = (t_philo *) arg;
 	time = philo->time;
-	
 
+	if(philo->id % 2 == 0)
+		usleep(philo->time_eat / 2);
 	while (1)
 	{
-		thinking(philo,time);
-		printf("qui3\n");
-		if (take_fork(philo, philo->time))
-			eating(philo, philo->time);
-		sleeping(philo, philo->time);
+		if(take_a_fork_and_eat(philo, time) == 0)
+		{
+			sleeping(philo, philo->time);
+			thinking(philo,time);
+		}
+		usleep(45);
 	}
 }
 

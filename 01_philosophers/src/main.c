@@ -24,11 +24,16 @@ void	print_arg(void)
 int	main(int argc, char **argv)
 {
 	t_data	data;
-	if (argc == 0)
-		exit(1);
-	//init_arg(&argc, data);
-	//write(1, "Error\n", 6);
-	init_arg(argv, &data);
-	init_fork(&data);
-	init_philo(&data);
+	if (argc != 5 && argc != 6)
+		return (0);
+	if(init_all(&data, argv) > 0)
+	{
+		printf("Errore_in_init");
+		exit(0);
+	}
+	if(lanch_tread(&data) == 1)
+	{
+		printf("Errore_in_lanch");
+		exit(0);
+	}
 }
