@@ -6,7 +6,7 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:58:08 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/11 19:27:55 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/14 17:52:50 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ typedef struct s_data {
 	bool	argv5;
 	pthread_mutex_t	print;
 	pthread_mutex_t	lock;
+	pthread_mutex_t	deat;
+	pthread_mutex_t	monitoring;
 	pthread_mutex_t	*forks;
 	pthread_t	*threads;
 	t_philo	*philo;
@@ -59,6 +61,7 @@ typedef struct s_data {
 //time.c    ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 time_t	get_time_stmp(const time_t time_start);
 void	stamp_time(char *str, t_philo *philo, time_t time);
+void	ft_usleep(time_t time);
 //int	random_muber(t_philo *philo);
 void	thinking(t_philo *philo, time_t time);
 void	eating(t_philo *philo, time_t time);
@@ -66,7 +69,7 @@ void	sleeping(t_philo *philo, time_t time);
 void	take_a_fork(t_philo *philo, time_t time);
 //routine.c  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 int	take_a_fork_and_eat(t_philo *philo, time_t time);
-void	pose_fork(t_philo *philo);
+int	pose_fork(t_philo *philo);
 int	take_fork(t_philo *philo, time_t time);
 void	*philo_routine(void *arg);
 //init.c   ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
