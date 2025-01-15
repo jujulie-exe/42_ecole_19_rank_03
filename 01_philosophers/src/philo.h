@@ -28,7 +28,7 @@ struct s_data;
 typedef struct s_philo	{
 	int		id;
 	int		number_of_time_to_eat;
-	long	last_meal_time;
+	time_t	last_meal_time;
 	time_t	time;
 	int	time_die;
 	int	time_sleep;
@@ -41,13 +41,13 @@ typedef struct s_philo	{
 
 typedef struct s_data {
 	int	number_of_philosophe;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	number_of_times;
-	int	time_to_thinking;
+	long	time_to_die;
+	long	time_to_eat;
+	long	time_to_sleep;
+	long	number_of_times;
+	long	time_to_thinking;
 	time_t	time_start;
-	bool	argv5;
+	atomic_bool	dead;
 	pthread_mutex_t	print;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	deat;
@@ -59,9 +59,9 @@ typedef struct s_data {
 
 
 //time.c    ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
-time_t	get_time_stmp(const time_t time_start);
+time_t	get_time_stmp(void);
 void	stamp_time(char *str, t_philo *philo, time_t time);
-void	ft_usleep(time_t time);
+int	ft_usleep(time_t time);
 //int	random_muber(t_philo *philo);
 void	thinking(t_philo *philo, time_t time);
 void	eating(t_philo *philo, time_t time);
@@ -80,6 +80,10 @@ void	init_arg(char **argv, t_data *data);
 //ft_atol.c ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 long long	ft_atol(const char *str);
 //threads.c  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
+void	finish_threads(t_data *data);
 int	init_all(t_data *data, char **argv);
 int	lanch_tread(t_data *data);
+//err.c  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
+int	check_argv(char **str);
+int	err_argv(void);
 #endif

@@ -24,16 +24,12 @@ void	print_arg(void)
 int	main(int argc, char **argv)
 {
 	t_data	data;
+
 	if (argc != 5 && argc != 6)
-		return (0);
-	if(init_all(&data, argv) > 0)
-	{
-		printf("Errore_in_init");
-		exit(0);
-	}
-	if(lanch_tread(&data) == 1)
-	{
-		printf("Errore_in_lanch");
-		exit(0);
-	}
+		return (1);
+	if (check_argv(argv) == 1)
+		return (err_argv());
+	init_all(&data, argv);
+	lanch_tread(&data);
+	finish_threads(&data);
 }

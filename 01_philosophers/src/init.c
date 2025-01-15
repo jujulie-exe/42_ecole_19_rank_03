@@ -26,8 +26,10 @@ void	init_arg(char **argv, t_data *data)
 	usleep(15);
 	data->time_to_thinking = (data->time_to_die - (data->time_to_sleep + data->time_to_eat));
 	data->time_start = start.tv_sec * 1000 + start.tv_usec / 1000;
-//	if (data->argv5 == true)
-//		data->number_of_times = ft_atol(argv[5]);
+	if (argv[5])
+		data->number_of_times = ft_atol(argv[5]);
+	else
+		data->number_of_times = INT_MIN;
 }
 
 void	init_struct_philo(t_data *data, t_philo *philo)
@@ -38,6 +40,7 @@ void	init_struct_philo(t_data *data, t_philo *philo)
 	philo->time_eat = data->time_to_eat;
 	philo->time_die = data->time_to_die;
 	philo->time_thinking = data->time_to_thinking;
+	philo->last_meal_time = get_time_stmp();
 }
 
 int	init_alloc(t_data *data)
@@ -51,18 +54,38 @@ int	init_alloc(t_data *data)
 	return (0);
 
 }
-static void forkettine(t_philo *philo, pthread_mutex_t *forks, int nb_philos)
+/*static void forkettine(t_philo *philo, pthread_mutex_t *forks, int nb_philos)
 {
-    if (philo->id % 2 == 0)
+    if (philo->id == nb_philos) // L'ultimo filosofo
     {
-        philo->first_fork = &forks[philo->id - 1];                  // Fork destro
-        philo->second_fork = &forks[philo->id % nb_philos];        // Fork sinistro
+        philo->first_fork = &forks[philo->id - 1];           // Fork destro
+        philo->second_fork = &forks[0];                     // Fork sinistro (prima forchetta)
+    }
+    else if (philo->id % 2 == 0)
+    {
+        philo->first_fork = &forks[philo->id - 1];          // Fork destro
+        philo->second_fork = &forks[philo->id % nb_philos]; // Fork sinistro
     }
     else
     {
-        philo->first_fork = &forks[philo->id % nb_philos];         // Fork sinistro
-        philo->second_fork = &forks[philo->id - 1];               // Fork destro
+        philo->first_fork = &forks[philo->id % nb_philos];  // Fork sinistro
+        philo->second_fork = &forks[philo->id - 1];         // Fork destro
     }
+}*/
+
+static void forkettine(t_philo *philo, pthread_mutex_t *forks, int nb_philos)
+{
+
+	else if (philo->id % 2 == 0)
+	{
+		philo->first_fork = &forks[philo->id - 1];                  // Fork destro
+		philo->second_fork = &forks[philo->id % nb_philos];        // Fork sinistro
+	}
+	else
+	{
+		philo->first_fork = &forks[philo->id % nb_philos];         // Fork sinistro
+		philo->second_fork = &forks[philo->id - 1];               // Fork destro
+	}
 }
 
 
