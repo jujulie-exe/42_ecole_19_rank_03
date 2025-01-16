@@ -34,4 +34,5 @@ int	main(int argc, char **argv)
 	lanch_tread(&data);
 	monitor_thread(&data);
 	finish_threads(&data);
+	return (ft_extit_clean(&data));
 }

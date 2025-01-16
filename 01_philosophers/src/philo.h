@@ -90,4 +90,5 @@ int	lanch_tread(t_data *data);
 //err.c  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 int	check_argv(char **str);
 int	err_argv(void);
+int	ft_extit_clean(t_data *data);
 #endif

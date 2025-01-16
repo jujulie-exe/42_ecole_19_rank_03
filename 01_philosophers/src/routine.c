@@ -24,6 +24,11 @@ int	take_a_fork_and_eat(t_philo *philo, time_t time)
 {
 	pthread_mutex_lock(philo->first_fork);
 	stamp_time("has take a fork", philo, time);
+	if (philo->data->number_of_philosophe == 1)
+	{
+		ft_usleep(philo->time_die + 3);
+		return (1);
+	}
 	pthread_mutex_lock(philo->second_fork);
 	stamp_time("has take a fork", philo, time);
 	stamp_time("is eating", philo, time);

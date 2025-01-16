@@ -48,3 +48,26 @@ int	check_argv(char **argv)
 	return (0);
 }
 
+int	ft_extit_clean(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->number_of_philosophe)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&data->print);
+	pthread_mutex_destroy(&data->lock);
+	pthread_mutex_destroy(&data->deat);
+	if (data->forks != NULL)
+		free(data->forks);
+	if (data->philo != NULL)
+		free(data->philo);
+	if (data->threads != NULL)
+		free(data->threads);
+	return (0);
+
+}
+
