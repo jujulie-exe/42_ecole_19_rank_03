@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   threads.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 12:02:21 by jfranco           #+#    #+#             */
+/*   Updated: 2025/01/16 15:10:10 by jfranco          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+/*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/
 
 #include "philo.h"
 
@@ -28,25 +40,7 @@ int	lanch_tread(t_data *data)
 		}
 		i++;
 	}
-	if(pthread_create(&monitor_thread, NULL, monitor_routine))
-		pthread_join(data->monitor_treah, NULL);
 	return (0);
-}
-
-int	monitor_thread()
-{
-	pthread_create(&monitor_thread, NULL, monitor_routine, &data);
-	return (0);
-}
-
-void	*monitor_routine(void *arg)
-{
-	int	i;
-
-	while (data->is_dead)
-	{
-		
-	}
 }
 
 int	is_dead(t_data *data)
@@ -54,18 +48,56 @@ int	is_dead(t_data *data)
 	int	i;
 
 	i = 0;
+	pthread_mutex_lock(&data->deat);
 	while(i < data->number_of_philosophe)
 	{
-		if((get_time_stmp() - data->philo[i]->last_meal_time)  > data->time_to_die)
+		if((get_time_stmp() - data->philo[i].last_meal_time)  > data->time_to_die)
 		{
-			stamp_time("is dead",data->philo[i], data->start_time);
-			data->is_dead = true
+			stamp_time("is dead", &data->philo[i], data->time_start);
+			data->is_dead = true;
+			pthread_mutex_unlock(&data->deat);
 			return (1);
 		}
 		i++;
 	}
+	pthread_mutex_unlock(&data->deat);
 	return (0);
 }
+
+/*int	is_full(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->number_of_philosophe)
+	{
+		if()
+		{
+		}
+	}
+
+
+}*/
+
+int	monitor_thread(t_data *data)
+{
+	pthread_create(&data->monitor_thread, NULL, monitor_routine,(void *)data);
+	pthread_detach(data->monitor_thread);
+	return (0);
+}
+
+void	*monitor_routine(void *arg)
+{
+	t_data *data = (t_data *) arg;
+
+	while (1)
+	{
+		if(is_dead(data) == 1)
+			break ;
+	}
+	return (NULL);
+}
+
 
 int	init_all(t_data *data, char **argv)
 {
@@ -77,3 +109,5 @@ int	init_all(t_data *data, char **argv)
 		return (2);
 	return (0);
 }
+
+/*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/

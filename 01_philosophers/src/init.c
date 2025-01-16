@@ -6,7 +6,7 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:07:30 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/14 15:34:47 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/16 12:54:46 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/
@@ -76,7 +76,7 @@ int	init_alloc(t_data *data)
 static void forkettine(t_philo *philo, pthread_mutex_t *forks, int nb_philos)
 {
 
-	else if (philo->id % 2 == 0)
+	if (philo->id % 2 == 0)
 	{
 		philo->first_fork = &forks[philo->id - 1];                  // Fork destro
 		philo->second_fork = &forks[philo->id % nb_philos];        // Fork sinistro
@@ -121,7 +121,7 @@ int init_mutex(t_data *data)
 	}
 	pthread_mutex_init(&data->lock, NULL);
 	pthread_mutex_init(&data->print, NULL);
-//	pthread_mutex_init(&data->deat, NULL);
+	pthread_mutex_init(&data->deat, NULL);
 //	pthread_mutex_init(&data->monitoring, NULL);
 
 	return (0);

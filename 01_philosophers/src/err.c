@@ -33,9 +33,9 @@ int	numeric(char **str)
 
 int	check_argv(char **argv)
 {
-	if(numeric(argv + 1) == 1)
+	if(numeric(argv) == 1)
 		return(1);
-	if (ft_atol(argv[1]) > 800)
+	if (ft_atol(argv[1]) > MAX_PHILO || argv[1] < 1)
 		return(1);
 	if (ft_atol(argv[2]) > INT_MAX)
 		return(1);

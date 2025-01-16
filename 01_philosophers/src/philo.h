@@ -6,7 +6,7 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:58:08 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/14 17:52:50 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/16 12:56:17 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <pthread.h>
 # include <stdbool.h>
 # include <sys/time.h>
+# include <stdatomic.h>
 
 
 struct s_data;
@@ -47,13 +48,14 @@ typedef struct s_data {
 	long	number_of_times;
 	long	time_to_thinking;
 	time_t	time_start;
-	atomic_bool	dead;
+	volatile atomic_bool	is_dead;
 	pthread_mutex_t	print;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	deat;
 	pthread_mutex_t	monitoring;
 	pthread_mutex_t	*forks;
 	pthread_t	*threads;
+	pthread_t	monitor_thread;
 	t_philo	*philo;
 } t_data;
 
@@ -81,7 +83,9 @@ void	init_arg(char **argv, t_data *data);
 long long	ft_atol(const char *str);
 //threads.c  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 void	finish_threads(t_data *data);
+void	*monitor_routine(void *arg);
 int	init_all(t_data *data, char **argv);
+int	monitor_thread(t_data *data);
 int	lanch_tread(t_data *data);
 //err.c  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 int	check_argv(char **str);

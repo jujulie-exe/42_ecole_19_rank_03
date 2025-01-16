@@ -6,7 +6,7 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 19:21:28 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/11 17:08:59 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/16 15:17:23 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ int	main(int argc, char **argv)
 
 	if (argc != 5 && argc != 6)
 		return (1);
-	if (check_argv(argv) == 1)
+	if (check_argv(argv + 1) == 1)
 		return (err_argv());
+	data.is_dead = false;
 	init_all(&data, argv);
 	lanch_tread(&data);
+	monitor_thread(&data);
 	finish_threads(&data);
 }
