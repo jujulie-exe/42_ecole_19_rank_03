@@ -17,7 +17,7 @@ int	numeric(char **str)
 
 	e = 0;
 	i = 0;
-	while(str[e][i])
+	while(str[e])
 	{
 		i = 0;
 		while(str[e][i] != '\0')
@@ -35,15 +35,15 @@ int	check_argv(char **argv)
 {
 	if(numeric(argv) == 1)
 		return(1);
-	if (ft_atol(argv[1]) > MAX_PHILO || argv[1] < 1)
+	if (ft_atol(argv[0]) > 200 || ft_atol(argv[1]) == 0)
+		return(1);
+	if (ft_atol(argv[1]) > INT_MAX)
 		return(1);
 	if (ft_atol(argv[2]) > INT_MAX)
 		return(1);
-	if (ft_atol(argv[4]) > INT_MAX)
-		return(1);
 	if (ft_atol(argv[3]) > INT_MAX)
 		return(1);
-	if (argv[5] && (ft_atol(argv[5]) > INT_MAX))
+	if (argv[4] && (ft_atol(argv[4]) > INT_MAX))
 		return(1);
 	return (0);
 }

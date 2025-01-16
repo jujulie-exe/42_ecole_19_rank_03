@@ -64,20 +64,23 @@ int	is_dead(t_data *data)
 	return (0);
 }
 
-/*int	is_full(t_data *data)
+int	is_full(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (i < data->number_of_philosophe)
 	{
-		if()
+		if(data->number_of_times == data->philo[i].number_of_time_to_eat)
 		{
+			stamp_time("is full", &data->philo[i], data->time_start);
+			data->is_dead = true;
+			return (1);
 		}
+		i++;
 	}
-
-
-}*/
+	return (0);
+}
 
 int	monitor_thread(t_data *data)
 {
@@ -92,7 +95,7 @@ void	*monitor_routine(void *arg)
 
 	while (1)
 	{
-		if(is_dead(data) == 1)
+		if(is_dead(data) == 1 || is_full(data) == 1)
 			break ;
 	}
 	return (NULL);

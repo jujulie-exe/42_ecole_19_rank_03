@@ -21,8 +21,8 @@ void	init_arg(char **argv, t_data *data)
 	data->number_of_philosophe = ft_atol(argv[1]);
 	printf("Number of philosophers: %d\n", data->number_of_philosophe);
 	data->time_to_die = ft_atol(argv[2]);
-	data->time_to_sleep = ft_atol(argv[4]);
 	data->time_to_eat = ft_atol(argv[3]);
+	data->time_to_sleep = ft_atol(argv[4]);
 	usleep(15);
 	data->time_to_thinking = (data->time_to_die - (data->time_to_sleep + data->time_to_eat));
 	data->time_start = start.tv_sec * 1000 + start.tv_usec / 1000;
@@ -39,6 +39,7 @@ void	init_struct_philo(t_data *data, t_philo *philo)
 	philo->time_sleep = data->time_to_sleep;
 	philo->time_eat = data->time_to_eat;
 	philo->time_die = data->time_to_die;
+	philo->number_of_time_to_eat = 0;
 	philo->time_thinking = data->time_to_thinking;
 	philo->last_meal_time = get_time_stmp();
 }

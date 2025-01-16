@@ -27,12 +27,12 @@ int	take_a_fork_and_eat(t_philo *philo, time_t time)
 	pthread_mutex_lock(philo->second_fork);
 	stamp_time("has take a fork", philo, time);
 	stamp_time("is eating", philo, time);
+	ft_usleep(philo->time_eat);
 	pthread_mutex_lock(&philo->data->lock);
 	philo->last_meal_time = get_time_stmp();
 	if (philo->data->number_of_times != INT_MIN)
 		philo->number_of_time_to_eat++;
 	pthread_mutex_unlock(&philo->data->lock);
-	ft_usleep(philo->time_eat);
 	pthread_mutex_unlock(philo->first_fork);
 	pthread_mutex_unlock(philo->second_fork);
 	return (0);
