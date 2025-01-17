@@ -6,37 +6,26 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:02:21 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/17 14:50:41 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/17 18:45:57 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/
 
 #include "philo.h"
 
-void finish_threads(t_data *data)
-{
-    int i;
-
-    i = 0;
-    while (i < data->number_of_philosophe)
-    {
-        pthread_join(data->threads[i], NULL);
-        i++;
-    }
-}
-
 int	lanch_tread(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->number_of_philosophe)
 	{
-		if(pthread_create(&data->threads[i], NULL, philo_routine, &data->philo[i]))
+		if (pthread_create(&data->threads[i], NULL,
+				philo_routine, &data->philo[i]))
 		{
 			while (--i >= 0)
-                		pthread_join(data->threads[i], NULL);
-            		return (1);
+				pthread_join(data->threads[i], NULL);
+			return (1);
 		}
 		i++;
 	}
@@ -48,9 +37,10 @@ int	is_dead(t_data *data)
 	int	i;
 
 	i = 0;
-	while(i < data->number_of_philosophe)
+	while (i < data->number_of_philosophe)
 	{
-		if((get_time_stmp() - data->philo[i].last_meal_time)  > data->time_to_die)
+		if ((get_time_stmp() - data->philo[i].last_meal_time)
+			> data->time_to_die)
 		{
 			stamp_time("is dead", &data->philo[i], data->time_start);
 			data->is_dead = true;
@@ -68,11 +58,12 @@ int	is_full(t_data *data)
 	i = 0;
 	while (i < data->number_of_philosophe)
 	{
-		if(data->number_of_times == data->philo[i].number_of_time_to_eat)
+		if (data->number_of_times == data->philo[i].number_of_time_to_eat)
 		{
 			data->is_dead = true;
 			pthread_mutex_lock(&data->deat);
-			printf("%ld %d %s", get_time_stmp() - data->time_start, data->philo[i].id, "is full");
+			printf("%ld %d %s", get_time_stmp() - data->time_start,
+				data->philo[i].id, "is full");
 			pthread_mutex_unlock(&data->deat);
 			return (1);
 		}
@@ -83,33 +74,21 @@ int	is_full(t_data *data)
 
 int	monitor_thread(t_data *data)
 {
-	pthread_create(&data->monitor_thread, NULL, monitor_routine,(void *)data);
+	pthread_create(&data->monitor_thread, NULL, monitor_routine, (void *)data);
 	pthread_detach(data->monitor_thread);
 	return (0);
 }
 
 void	*monitor_routine(void *arg)
 {
-	t_data *data = (t_data *) arg;
+	t_data	*data;
 
+	data = (t_data *) arg;
 	while (1)
 	{
-		if(is_dead(data) == 1 || is_full(data) == 1)
+		if (is_dead(data) == 1 || is_full(data) == 1)
 			break ;
 	}
 	return (NULL);
 }
-
-
-int	init_all(t_data *data, char **argv)
-{
-
-	init_arg(argv, data);
-	if (init_mutex(data) == 1)
-		return (1);
-	if (init_philo(data) == 1)
-		return (2);
-	return (0);
-}
-
 /*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/

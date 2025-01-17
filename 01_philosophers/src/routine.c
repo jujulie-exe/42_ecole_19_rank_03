@@ -6,14 +6,14 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:09:42 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/17 14:14:39 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/17 16:34:45 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/
 
 #include "philo.h"
 
-int pose_fork(t_philo *philo)
+int	pose_fork(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->first_fork);
 	pthread_mutex_unlock(philo->second_fork);
@@ -34,11 +34,9 @@ int	take_a_fork_and_eat(t_philo *philo, time_t time)
 	stamp_time("has take a fork", philo, time);
 	stamp_time("is eating", philo, time);
 	ft_usleep(philo->time_eat);
-	//pthread_mutex_lock(&philo->data->lock);
 	philo->last_meal_time = get_time_stmp();
 	if (philo->data->number_of_times != INT_MIN)
 		philo->number_of_time_to_eat++;
-	//pthread_mutex_unlock(&philo->data->lock);
 	pthread_mutex_unlock(philo->first_fork);
 	pthread_mutex_unlock(philo->second_fork);
 	return (0);
@@ -47,11 +45,12 @@ int	take_a_fork_and_eat(t_philo *philo, time_t time)
 void	*philo_routine(void *arg)
 {
 	time_t	time;
-	t_philo *philo = (t_philo *) arg;
+	t_philo	*philo;
+
+	philo = (t_philo *) arg;
 	time = philo->time;
 	philo->last_meal_time = get_time_stmp();
-
-	if(philo->id % 2 == 0)
+	if (philo->id % 2 == 0)
 		ft_usleep(1);
 	while (philo->data->is_dead == false)
 	{
@@ -59,9 +58,6 @@ void	*philo_routine(void *arg)
 		sleeping(philo, philo->time);
 		stamp_time("is thinking", philo, time);
 	}
-
 	return (NULL);
 }
-
-
 /*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/

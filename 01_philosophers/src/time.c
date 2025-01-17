@@ -6,7 +6,7 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:20:51 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/17 14:44:30 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/17 16:01:55 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/
@@ -24,9 +24,9 @@ time_t	get_time_stmp(void)
 void	stamp_time(char *str, t_philo *philo, time_t time)
 {
 	time_t	stmp;
+
 	if (philo->data->is_dead == false)
 	{
-		
 		pthread_mutex_lock(&philo->data->print);
 		stmp = get_time_stmp() - time;
 		printf("%ld ", stmp);
@@ -35,6 +35,7 @@ void	stamp_time(char *str, t_philo *philo, time_t time)
 		pthread_mutex_unlock(&philo->data->print);
 	}
 }
+
 int	ft_usleep(time_t time_in_ms)
 {
 	time_t	start_time;
@@ -45,18 +46,8 @@ int	ft_usleep(time_t time_in_ms)
 	return (0);
 }
 
-void	thinking(t_philo *philo, time_t time)
-{
-	int	thinking;
-
-	thinking = philo->time_thinking;
-	ft_usleep(thinking);	
-	stamp_time("is thinking", philo, time);
-}
-
 void	eating(t_philo *philo, time_t time)
 {
-
 	stamp_time("is eating", philo, time);
 	ft_usleep(philo->time_eat);
 	pose_fork(philo);
