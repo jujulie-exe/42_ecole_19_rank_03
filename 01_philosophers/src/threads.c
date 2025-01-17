@@ -6,7 +6,7 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:02:21 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/16 15:10:10 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/17 14:50:41 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/
@@ -48,19 +48,16 @@ int	is_dead(t_data *data)
 	int	i;
 
 	i = 0;
-	pthread_mutex_lock(&data->deat);
 	while(i < data->number_of_philosophe)
 	{
 		if((get_time_stmp() - data->philo[i].last_meal_time)  > data->time_to_die)
 		{
 			stamp_time("is dead", &data->philo[i], data->time_start);
 			data->is_dead = true;
-			pthread_mutex_unlock(&data->deat);
 			return (1);
 		}
 		i++;
 	}
-	pthread_mutex_unlock(&data->deat);
 	return (0);
 }
 
@@ -73,8 +70,10 @@ int	is_full(t_data *data)
 	{
 		if(data->number_of_times == data->philo[i].number_of_time_to_eat)
 		{
-			stamp_time("is full", &data->philo[i], data->time_start);
 			data->is_dead = true;
+			pthread_mutex_lock(&data->deat);
+			printf("%ld %d %s", get_time_stmp() - data->time_start, data->philo[i].id, "is full");
+			pthread_mutex_unlock(&data->deat);
 			return (1);
 		}
 		i++;

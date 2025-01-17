@@ -6,7 +6,7 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:58:08 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/16 12:56:17 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/17 14:21:52 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ struct s_data;
 
 typedef struct s_philo	{
 	int		id;
-	int		number_of_time_to_eat;
-	time_t	last_meal_time;
+	atomic_int		number_of_time_to_eat;
+	atomic_long	last_meal_time;
 	time_t	time;
 	int	time_die;
 	int	time_sleep;

@@ -53,6 +53,7 @@ int	ft_extit_clean(t_data *data)
 	int	i;
 
 	i = 0;
+	pthread_mutex_lock(&data->deat);
 	while (i < data->number_of_philosophe)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
@@ -60,6 +61,7 @@ int	ft_extit_clean(t_data *data)
 	}
 	pthread_mutex_destroy(&data->print);
 	pthread_mutex_destroy(&data->lock);
+	pthread_mutex_unlock(&data->deat);
 	pthread_mutex_destroy(&data->deat);
 	if (data->forks != NULL)
 		free(data->forks);

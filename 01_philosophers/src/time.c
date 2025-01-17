@@ -6,7 +6,7 @@
 /*   By: jfranco <jfranco@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:20:51 by jfranco           #+#    #+#             */
-/*   Updated: 2025/01/16 13:53:58 by jfranco          ###   ########.fr       */
+/*   Updated: 2025/01/17 14:44:30 by jfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥*/
@@ -24,15 +24,16 @@ time_t	get_time_stmp(void)
 void	stamp_time(char *str, t_philo *philo, time_t time)
 {
 	time_t	stmp;
-	pthread_mutex_lock(&philo->data->print);
-	stmp = get_time_stmp() - time;
 	if (philo->data->is_dead == false)
 	{
+		
+		pthread_mutex_lock(&philo->data->print);
+		stmp = get_time_stmp() - time;
 		printf("%ld ", stmp);
 		printf("%d ", philo->id);
 		printf("%s\n", str);
+		pthread_mutex_unlock(&philo->data->print);
 	}
-	pthread_mutex_unlock(&philo->data->print);
 }
 int	ft_usleep(time_t time_in_ms)
 {
