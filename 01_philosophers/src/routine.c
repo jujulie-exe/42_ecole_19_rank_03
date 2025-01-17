@@ -55,8 +55,14 @@ void	*philo_routine(void *arg)
 	while (philo->data->is_dead == false)
 	{
 		take_a_fork_and_eat(philo, time);
+		if (philo->data->is_dead == true)
+			break ;
 		sleeping(philo, philo->time);
+		if (philo->data->is_dead == true)
+			break ;
 		stamp_time("is thinking", philo, time);
+		if (philo->data->is_dead == true)
+			break ;
 	}
 	return (NULL);
 }
