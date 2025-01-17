@@ -18,7 +18,8 @@ int	init_mutex(t_data *data)
 	int	i;
 
 	i = 0;
-	data->forks = (pthread_mutex_t *) malloc (data->number_of_philosophe * sizeof(pthread_mutex_t));
+	data->forks = (pthread_mutex_t *) malloc (data->number_of_philosophe
+			* sizeof(pthread_mutex_t));
 	if (data->forks == NULL)
 		return (1);
 	while (i < data->number_of_philosophe)
