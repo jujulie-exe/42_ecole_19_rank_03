@@ -62,7 +62,7 @@ int	is_full(t_data *data)
 		{
 			data->is_dead = true;
 			pthread_mutex_lock(&data->deat);
-			printf("%ld %d %s", get_time_stmp() - data->time_start,
+			printf("%ld %d %s\n", get_time_stmp() - data->time_start,
 				data->philo[i].id, "is full");
 			pthread_mutex_unlock(&data->deat);
 			return (1);
